@@ -1,5 +1,7 @@
 export {};
 
 const assets = require('./assets');
-module.exports = [assets];
-//module.exports = [assets, users];
+const banks = require('./banks');
+
+module.exports = [assets, banks];
+
