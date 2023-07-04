@@ -1,10 +1,20 @@
 import { useEffect, useState } from "react";
 import BankService from "../services/banksService";
 
-const ListGroup = () => {
+const ListBanks = () => {
   const [banks, setBanks] = useState([]);
+
+  /*   
+    useEffect(() => {
+      const fetchBanks = async () => {
+        const banks = await BankService.getBanks();
+        setBanks(banks);
+      };
+    }, []); 
+  */
+
   useEffect(() => {
-    fetchBanks();
+    BankService.getBanks().then((data) => setBanks(data));
   }, []);
 
   const fetchBanks = () => {
@@ -32,4 +42,4 @@ const ListGroup = () => {
   );
 };
 
-export default ListGroup;
+export default ListBanks;

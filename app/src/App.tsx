@@ -1,9 +1,9 @@
-import ListGroup from "./components/ListBanks";
+import ListBanks from "./components/ListBanks";
 
 const App = () => {
   return (
     <div>
-      <ListGroup />
+      <ListBanks />
     </div>
   );
 };
