@@ -1,41 +1,45 @@
-import * as express from 'express';
-const  http = require('http')
-const mysql = require("mysql");
-require('dotenv').config()
+import { NextFunction, Request, Response } from 'express';
+import logging from '../config/logging';
+import { Connect, Query } from '../config/util';
 
-const connection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
-});
+const NAMESPACE = 'banks';
 
-connection.connect()
+const getAllBanks = async (req: Request, res: Response, next: NextFunction) => {
+    logging.info(NAMESPACE, 'Getting all banks.');
 
-module.exports = {
-    getAssets: async (request: express.Request, response: express.Response) => {
-      try {   
-              
-        connection.query("select * from assets", (err, rows, fields) => {
-          return response.json(rows);
+    let query = 'SELECT * FROM banks';
+
+    Connect()
+        .then((connection) => {
+            Query(connection, query)
+                .then((results) => {
+                    logging.info(NAMESPACE, 'Retrieved banks: ', results);
+
+                    return res.status(200).json({
+                        results
+                    });
+                })
+                .catch((error) => {
+                    logging.error(NAMESPACE, error.message, error);
+
+                    return res.status(200).json({
+                        message: error.message,
+                        error
+                    });
+                })
+                .finally(() => {
+                    logging.info(NAMESPACE, 'Closing connection.');
+                    connection.end();
+                });
+        })
+        .catch((error) => {
+            logging.error(NAMESPACE, error.message, error);
+
+            return res.status(200).json({
+                message: error.message,
+                error
+            });
         });
-      
-        connection.end();        
-      } catch (error) {
-        console.log('getAssets', error)
-      }   
-    },
-    getBanks: async (request: express.Request, response: express.Response) => {
-      try {   
-              
-        connection.query("select * from banks", (err, rows, fields) => {
-          return response.json(rows);
-        });
-      
-        connection.end();        
-      } catch (error) {
-        console.log('getBanks', error)
-      }   
-    }      
 };
+
+export default { getAllBanks };

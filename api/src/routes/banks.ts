@@ -1,9 +1,8 @@
-var express = require('express')
-var router = express.Router()
+import express from 'express';
+import controller from '../controllers/banks';
 
-const bankController = require('../controllers/banks');
+const banksRouter = express.Router();
 
-router.route('/banks')
-      .get(bankController.getBanks)
+banksRouter.get('/', controller.getAllBanks);
 
-module.exports = router;
+export {banksRouter};

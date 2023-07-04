@@ -1,7 +1,10 @@
 export {};
 
-const assets = require('./assets');
-const banks = require('./banks');
+//import * as assets from './assets'
+import * as banks from './banks'
 
-module.exports = [assets, banks];
+//const assets = require('./assets');
+//const banks = require('./banks');
+
+module.exports = [ banks];
 

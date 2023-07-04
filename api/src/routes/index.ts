@@ -1,5 +1,7 @@
 export {};
 
-const assets = require('./assets');
+//const banks = require('./banks');
 
-module.exports = [assets]; 
+import {banksRouter}  from './banks';
+
+export {banksRouter};

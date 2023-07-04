@@ -1,5 +1,7 @@
 import express from "express";
 import cors from 'cors';
+import {banksRouter} from './routes/index';
+
 var app = express();
 
 
@@ -11,25 +13,21 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 var whitelist = [
-  'http://localhost:4200'
+  'http://localhost:4200',
+  'http://localhost:5173'
 ];
 
 
 var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
+  origin: 'http://localhost:5173',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
 app.use(cors());
 app.options('*', cors(corsOptions));
 
 //routes
-app.use('/' , require('./routes/index.ts'));
+app.use('/banks' , banksRouter);
 
 console.log('About to crank up node');
 console.log('PORT=' + port);
