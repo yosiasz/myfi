@@ -19,7 +19,18 @@ const options = {
 });  */
 
 const getBanks = () => {
-  fetch("http://localhost:5000/banks")
+  return fetch("http://localhost:5000/banks")
+  .then((res) => res.json())
+  .then((data) => {
+    return data.results;
+  })
+  .catch((err) => {
+    console.log(err.message);
+  });
+}
+
+const getBanksv3 = () => {
+  return fetch("http://localhost:5000/banks")
   .then((res) => res.json())
   .then((data) => {
     //setBanks(data.results);
@@ -27,12 +38,7 @@ const getBanks = () => {
   })
   .catch((err) => {
     console.log(err.message);
-  });  
-  //const data = await fetch('http://localhost:5000/banks');
-  //return await data.json();
-/*   .catch((err) => {
-    console.log(err.message);
-  });  */
+  });
 }
 
 const getBanksv2 = async () => {
