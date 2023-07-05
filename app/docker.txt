@@ -1,0 +1,24 @@
+FROM node:10.15.3-jessie
+
+# HTTP Proxy
+ARG http_proxy
+ARG https_proxy
+ENV http_proxy ${http_proxy}
+ENV https_proxy ${https_proxy}
+
+# Certicate
+ENV CERT_HOME=/usr/local/share/ca-certificates
+ENV CERT_FILE_PATH=${CERT_HOME}/my.crt
+RUN mkdir -p ${CERT_HOME}
+ADD my.crt ${CERT_FILE_PATH}
+RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
+
+# npm settings
+RUN npm config set cafile ${CERT_FILE_PATH}
+RUN npm config set proxy ${http_proxy}
+RUN npm config set https-proxy ${https_proxy}
+
+# Check
+RUN npm config get proxy
+RUN npm config get https-proxy
+RUN npm config get registry
