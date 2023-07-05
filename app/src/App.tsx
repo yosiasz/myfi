@@ -1,10 +1,12 @@
+import LeftNavBar from "./components/LeftNavBar";
 import ListBanks from "./components/ListBanks";
 
 const App = () => {
   return (
-    <div>
+    <>
+      <LeftNavBar />
       <ListBanks />
-    </div>
+    </>
   );
 };
 
